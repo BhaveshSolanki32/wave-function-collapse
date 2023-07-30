@@ -10,13 +10,13 @@ public class WFCTrigger : MonoBehaviour//triggers wfc by collapsing lowest entro
     [SerializeField] public float Delay=0.2f;
     protected LowestEntropyTracker overallEntropyManager;
     protected DirectCollapseTile directCollapseTile;
-    public event Action OnWaveFunctionollapsed;
+    public event Action OnWaveFunctionCollapsed;
 
     protected void Awake()
     {
         overallEntropyManager = GetComponent<LowestEntropyTracker>();
         directCollapseTile = GetComponent<DirectCollapseTile>();
-        OnWaveFunctionollapsed += waveFuncIsCollapsed;
+        OnWaveFunctionCollapsed += waveFuncIsCollapsed;
     }
 
     public virtual void StartWFC()
@@ -37,7 +37,7 @@ public class WFCTrigger : MonoBehaviour//triggers wfc by collapsing lowest entro
             Tuple<GameObject, GameObject> _lowestEntropyTile = overallEntropyManager.GetLowestEntropyTile();
             if (_lowestEntropyTile == null)
             {
-                OnWaveFunctionollapsed?.Invoke();
+                OnWaveFunctionCollapsed?.Invoke();
                 yield break;
             }
             directCollapseTile.CollapseTile(_lowestEntropyTile.Item2.name,_lowestEntropyTile.Item1);

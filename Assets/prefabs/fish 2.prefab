@@ -178,6 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8164352529518570174}
   - component: {fileID: 107371272320263370}
+  - component: {fileID: 3981170496775993181}
   m_Layer: 0
   m_Name: fish
   m_TagString: Untagged
@@ -254,6 +255,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3981170496775993181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3061197164367194008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 742fca9e2c5c52d4eb5184dad525bd61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.2
 --- !u!1 &7435770769603124520
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,7 +5,6 @@ using UnityEngine;
 public class FishInstantiater : MonoBehaviour
 {
     GameObject tileMap;
-    [SerializeField] float speed=0.2f;
 
 
     private void Awake()

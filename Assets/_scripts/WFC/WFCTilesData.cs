@@ -26,7 +26,8 @@ public class WFCTilesData : ScriptableObject
         {"sU grass2", new List<string>(){ "G-G-G", "G-B-B", "B-B-B", "G-B-B" } },
         {"sU grass3", new List<string>(){ "G-G-G", "G-B-B", "B-B-B", "G-B-B" } },
         { "fish 2", new List<string>() {"GB-GB-GB", "GB-GB-GB", "GB-GB-GB", "GB-GB-GB" } },
-
+        { "sUL grass", new List<string>() {"G-G-G", "G-B-B", "G-B-B","G-G-G" } },
+        { "sUR grass", new List<string>() {"G-G-G", "G-G-G", "B-B-G","G-B-B" } },
 
 
     };

@@ -28,6 +28,11 @@ This is handled by WFCBulkCollapse script which just need a list of tiles to col
 <a name="Project-screenshots/GIFs"></a>
 ## Project screenshots/GIFs
 
+![ezgif-5-445a6a7be0](https://github.com/BhaveshSolanki32/wave-function-collapse/assets/66202955/74245424-7298-48f3-9520-681c594f17ff)
+
+![ezgif-5-a482801b62](https://github.com/BhaveshSolanki32/wave-function-collapse/assets/66202955/922bf45a-d44f-4a5f-8d2e-177f744139c3)
+
+
 <a name="Key-features"></a>
 ## Key features
 

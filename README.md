@@ -6,14 +6,16 @@ This is a Unity project coded in c# that procedurally generates 2D tilemap world
 #### Demo: [Link to the playable demonstration of the project itch.io page](https://bhavesh-solanki.itch.io/aquarium-wave-function-collapse)
 ## Table of content
 
-- [About](##About)
-- [Screenshots/gifs](##Project-screenshots/GIFs)
-- [Key features](##Key-features)
-- [Installation](##Installation)
-- [Usage](##Usage)
-- [Code overview](##Code-overview)
-- [Future plan](##Future-plan)
-- [Acknowledgement](##Acknowledgement)
+- [About](#About)
+- [Screenshots/gifs](#Project-screenshots/GIFs)
+- [Key features](#Key-features)
+- [Installation](#Installation)
+- [Usage](#Usage)
+- [Code overview](#Code-overview)
+- [Future plan](#Future-plan)
+- [Acknowledgement](#Acknowledgement)
+
+<a name="About"></a>
 ## About
 
 The wave function collapse algorithm allows procedural generation of an image that have constraints to make them locally consistent. This project implements the simple tiled model approch of the algorithm to generate maps with custom tilesets and rules.
@@ -22,7 +24,11 @@ There are 2 modes a normal mode where it randomly generates the level and Bezier
 
 The major con of using wfc for real application is it's too random speacially simple tile based model. To aid this I created the bezier mode which can collpase a pre defined list of tiles at once.
 This is handled by WFCBulkCollapse script which just need a list of tiles to collpase first. The system is completely modular so it is easy to change any feature (different approches can be used to collpase multiple tiles to create a desired pattern or a level with some constrains).
+
+<a name="Project-screenshots/GIFs"></a>
 ## Project screenshots/GIFs
+
+<a name="Key-features"></a>
 ## Key features
 
 * **Grid generation system** for spawning map tiles as gameobjects, with an editor utility script to help generate tileset in editor mode based on given parameters.
@@ -31,6 +37,8 @@ This is handled by WFCBulkCollapse script which just need a list of tiles to col
 * **Modularity and expandability** this project uses SOLID design principle, which makes it easier to maintain the project as it grows and make changes quickly.
 * **Bezier mode** which collapse a path open before collapsing other tiles (irrespective of the entropy) which ensures an open path.
 * **Fish behavior** after the wave function is collapsed fishes generated with tile are set free to swim across the aquarium.
+
+<a name="Installation"></a>
 ## Installation
 
 1. Installation is straight forward download the repo.
@@ -38,6 +46,8 @@ This is handled by WFCBulkCollapse script which just need a list of tiles to col
 3. download unity 2021.3.16f1.if not instaled.
 4.  open the Sample scene in the scene folder.
 5. You are all set to use the project.
+
+<a name="Usage"></a>
 ## Usage
 
 1. Select GridGenerator gameobject, go to inspector window and set the height and width of the grid and click on generate  button, a grid will be generated with grid center at (0,0,0)( world postion).
@@ -45,6 +55,8 @@ This is handled by WFCBulkCollapse script which just need a list of tiles to col
 3. Now create your Tiles and add them to initial tile prefab gameobject, currently the each tile is stored in a Dictionary<string, List<string>> in a ScriptableObject. You can simply add your code based on your constrains, if you want to add current TileData just add a new dictionary item and define tile code, socket codes.
 4. Reference you ScriptableObject TilesData to Tiles gameobject where required.
 5. You are all set just play the demo with you custom tiles
+
+<a name="Code-overview"></a>
 ## Code overview
 
 
@@ -58,6 +70,8 @@ This is handled by WFCBulkCollapse script which just need a list of tiles to col
 * **LowestEntropyTracker** - give the lowest entropy tile(tile with least number of tile left in superpostion.).
 * **WFCTilesData** - ScriptableObject holding valid adjacent tile rules
 * **WFCInputUIEvent** - Recives UI interaction and send it to respected scripts to make changes.
+
+<a name="Future-plan"></a>
 ## Future plan
 
 Some potential improvements:
@@ -65,6 +79,8 @@ Some potential improvements:
 * Support for 3d world generation.
 * turning it into fullfleged game with infinite world generation or puzzle generation
 * Bulk image mode which can read black and white image data and collapse tile according to that to give a certain pattern in the output and get more control over output.
+
+<a name="Acknowledgement"></a>
 ## Acknowledgement
 
 

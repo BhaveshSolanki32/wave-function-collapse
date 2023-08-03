@@ -6,14 +6,14 @@ This is a Unity project coded in c# that procedurally generates 2D tilemap world
 #### Demo: [Link to the playable demonstration of the project itch.io page](https://bhavesh-solanki.itch.io/aquarium-wave-function-collapse)
 ## Table of content
 
-- [About](#About)
-- [Screenshots/gifs](#Project-screenshots/GIFs)
-- [Key features](#Key-features)
-- [Installation](#Installation)
-- [Usage](#Usage)
-- [Code overview](#Code-overview)
-- [Future plan](#Future-plan)
-- [Acknowledgement](#Acknowledgement)
+- [About](##About)
+- [Screenshots/gifs](##Project-screenshots/GIFs)
+- [Key features](##Key-features)
+- [Installation](##Installation)
+- [Usage](##Usage)
+- [Code overview](##Code-overview)
+- [Future plan](##Future-plan)
+- [Acknowledgement](##Acknowledgement)
 ## About
 
 The wave function collapse algorithm allows procedural generation of an image that have constraints to make them locally consistent. This project implements the simple tiled model approch of the algorithm to generate maps with custom tilesets and rules.

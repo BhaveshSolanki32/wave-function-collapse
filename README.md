@@ -6,7 +6,7 @@ This is a Unity project coded in c# that procedurally generates 2D tilemap world
 #### Demo: [Link to the playable demonstration of the project itch.io page](https://bhavesh-solanki.itch.io/aquarium-wave-function-collapse)
 ## Table of content
 
-- [About](#About)
+- <a href="#About">About</a>
 - [Screenshots/gifs](#Project-screenshots/GIFs)
 - [Key features](#Key-features)
 - [Installation](#Installation)

@@ -6,16 +6,16 @@ This is a Unity project coded in c# that procedurally generates 2D tilemap world
 #### Demo: [Link to the playable demonstration of the project itch.io page](https://bhavesh-solanki.itch.io/aquarium-wave-function-collapse)
 ## Table of content
 
-- <a href="#About">About</a>
-- <a href="#Project-screenshots/GIFs">Screenshots/gifs</a>
-- <a href="#Key-features">Key features</a>
-- <a href="#Installation">Installation</a>
-- <a href="#Usage">Usage</a>
-- <a href="#Code-overview">Code overview</a>
-- <a href="#Future-plan">Future plan</a>
-- <a href="#Acknowledgement">Acknowledgement</a>
+- <a href="#about">About</a>
+- <a href="#project-screenshots/gifs">Screenshots/gifs</a>
+- <a href="#key-features">Key features</a>
+- <a href="#installation">Installation</a>
+- <a href="#Uusage">Usage</a>
+- <a href="#code-overview">Code overview</a>
+- <a href="#future-plan">Future plan</a>
+- <a href="#acknowledgement">Acknowledgement</a>
 
-<a name="About"></a>
+<a name="about"></a>
 ## About
 
 The wave function collapse algorithm allows procedural generation of an image that have constraints to make them locally consistent. This project implements the simple tiled model approach of the algorithm to generate maps with custom tilesets and rules.
@@ -25,7 +25,7 @@ There are 2 modes a normal mode where it randomly generates the level and Bezier
 The major con of using wfc for real application is it's too random specially simple tile based model. To aid this I created the bezier mode which can collapse a pre defined list of tiles at once.
 This is handled by WFCBulkCollapse script which just need a list of tiles to collapse first. The system is completely modular so it is easy to change any feature (different approaches can be used to collapse multiple tiles to create a desired pattern or a level with some constrains).
 
-<a name="Project-screenshots/GIFs"></a>
+<a name="project-screenshots/gifs"></a>
 ## Project screenshots/GIFs
 
 ![ezgif-5-445a6a7be0](https://github.com/BhaveshSolanki32/wave-function-collapse/assets/66202955/74245424-7298-48f3-9520-681c594f17ff)
@@ -33,7 +33,7 @@ This is handled by WFCBulkCollapse script which just need a list of tiles to col
 ![ezgif-5-a482801b62](https://github.com/BhaveshSolanki32/wave-function-collapse/assets/66202955/922bf45a-d44f-4a5f-8d2e-177f744139c3)
 
 
-<a name="Key-features"></a>
+<a name="key-features"></a>
 ## Key features
 
 * **Grid generation system** for spawning map tiles as gameobjects, with an editor utility script to help generate tileset in editor mode based on given parameters.
@@ -43,7 +43,7 @@ This is handled by WFCBulkCollapse script which just need a list of tiles to col
 * **Bezier mode** which collapse a path open before collapsing other tiles (irrespective of the entropy) which ensures an open path.
 * **Fish behavior** after the wave function is collapsed fishes generated with tile are set free to swim across the aquarium.
 
-<a name="Installation"></a>
+<a name="installation"></a>
 ## Installation
 
 1. Installation is straight forward download the repo.
@@ -52,7 +52,7 @@ This is handled by WFCBulkCollapse script which just need a list of tiles to col
 4.  open the Sample scene in the scene folder.
 5. You are all set to use the project.
 
-<a name="Usage"></a>
+<a name="usage"></a>
 ## Usage
 
 1. Select GridGenerator gameobject, go to inspector window and set the height and width of the grid and click on generate  button, a grid will be generated with grid center at (0,0,0)( world position).
@@ -61,7 +61,7 @@ This is handled by WFCBulkCollapse script which just need a list of tiles to col
 4. Reference you ScriptableObject TilesData to Tiles gameobject where required.
 5. You are all set just play the demo with you custom tiles
 
-<a name="Code-overview"></a>
+<a name="code-overview"></a>
 ## Code overview
 
 
@@ -76,7 +76,7 @@ This is handled by WFCBulkCollapse script which just need a list of tiles to col
 * **WFCTilesData** - ScriptableObject holding valid adjacent tile rules
 * **WFCInputUIEvent** - Receives UI interaction and send it to respected scripts to make changes.
 
-<a name="Future-plan"></a>
+<a name="future-plan"></a>
 ## Future plan
 
 Some potential improvements:
@@ -85,7 +85,7 @@ Some potential improvements:
 * turning it into full-fledged game with infinite world generation or puzzle generation
 * Bulk image mode which can read black and white image data and collapse tile according to that to give a certain pattern in the output and get more control over output.
 
-<a name="Acknowledgement"></a>
+<a name="acknowledgement"></a>
 ## Acknowledgement
 
 

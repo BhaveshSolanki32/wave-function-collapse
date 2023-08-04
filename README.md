@@ -7,13 +7,13 @@ This is a Unity project coded in c# that procedurally generates 2D tilemap world
 ## Table of content
 
 - <a href="#About">About</a>
-- [Screenshots/gifs](#Project-screenshots/GIFs)
-- [Key features](#Key-features)
-- [Installation](#Installation)
-- [Usage](#Usage)
-- [Code overview](#Code-overview)
-- [Future plan](#Future-plan)
-- [Acknowledgement](#Acknowledgement)
+- <a href="#Project-screenshots/GIFs">Screenshots/gifs</a>
+- <a href="#Key-features">Key features</a>
+- <a href="#Installation">Installation</a>
+- <a href="#Usage">Usage</a>
+- <a href="#Code-overview">Code overview</a>
+- <a href="#Future-plan">Future plan</a>
+- <a href="#Acknowledgement">Acknowledgement</a>
 
 <a name="About"></a>
 ## About

@@ -5,14 +5,31 @@ using UnityEngine;
 [RequireComponent(typeof(DirectCollapseTile), typeof(LowestEntropyTracker), typeof(GridData))]
 public class WFCTypeHandler : MonoBehaviour
 {
-    enum WFCTypeEnum { OneAtATimeCollapseWFC, TestSingleCollapse, BulkCollapseWFC};
-    WFCTypeEnum wFCType;
-    [SerializeField] float delay = 0.2f;
+    [SerializeField] float _delay = 0.2f;
+    enum _wFCTypeEnum { OneAtATimeCollapseWFC, TestSingleCollapse, BulkCollapseWFC};
+    _wFCTypeEnum wFCType;
+
+
+    public void ModeChange(bool isCurrentlyNormalMode)
+    {
+        if (isCurrentlyNormalMode)
+        {
+            wFCType = _wFCTypeEnum.BulkCollapseWFC;
+            SetMode();
+            isCurrentlyNormalMode = false;
+        }
+        else
+        {
+            wFCType = _wFCTypeEnum.OneAtATimeCollapseWFC;
+            SetMode();
+            isCurrentlyNormalMode = true;
+        }
+    }
 
 
     private void Awake()
     {
-        wFCType = WFCTypeEnum.OneAtATimeCollapseWFC;
+        wFCType = _wFCTypeEnum.OneAtATimeCollapseWFC;
         SetMode();
     }
 
@@ -21,36 +38,17 @@ public class WFCTypeHandler : MonoBehaviour
         Destroy(GetComponent<WFCTrigger>());
         switch (wFCType)
         {
-            case WFCTypeEnum.TestSingleCollapse:
+            case _wFCTypeEnum.TestSingleCollapse:
                 
-                gameObject.AddComponent<TestWFCTrigger>().Delay = delay;
+                gameObject.AddComponent<TestWFCTrigger>().Delay = _delay;
                 break;
-            case WFCTypeEnum.OneAtATimeCollapseWFC:
-                gameObject.AddComponent<WFCTrigger>().Delay = delay; ;
+            case _wFCTypeEnum.OneAtATimeCollapseWFC:
+                gameObject.AddComponent<WFCTrigger>().Delay = _delay; ;
                 break;
-            case WFCTypeEnum.BulkCollapseWFC:
-                gameObject.AddComponent<WFCBulkCollapseTrigger>().Delay = delay; ;
+            case _wFCTypeEnum.BulkCollapseWFC:
+                gameObject.AddComponent<WFCBulkCollapseTrigger>().Delay = _delay; ;
                 break;
         }
     }
-
-
-    public void ModeChange(bool _isCurrentlyNormalMode)
-    {
-        if (_isCurrentlyNormalMode)
-        {
-            wFCType = WFCTypeEnum.BulkCollapseWFC;
-            SetMode();
-            _isCurrentlyNormalMode = false;
-        }
-        else
-        {
-            wFCType = WFCTypeEnum.OneAtATimeCollapseWFC;
-            SetMode();
-            _isCurrentlyNormalMode = true;
-        }
-    }
-
-
 
 }

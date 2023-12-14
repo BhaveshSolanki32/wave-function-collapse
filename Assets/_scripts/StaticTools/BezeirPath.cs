@@ -5,32 +5,32 @@ using UnityEngine;
 public static class BezeirPath
 {
 
-    public static List<Vector3> s_GetBezierPath(Vector3 _fromVector, Vector3 _handle1, Vector3 _handle2, Vector3 _toVector, float _jumpRatio=0.14f)
+    public static List<Vector3> GetBezierPath(Vector3 fromVector, Vector3 handle1, Vector3 handle2, Vector3 toVector, float jumpRatio=0.14f)
     {
-        List<Vector3> _pointList = new List<Vector3>();
+        var pointList = new List<Vector3>();
 
-        for (float _ratio = 0; _ratio <= 1+_jumpRatio; _ratio += _jumpRatio)
+        for (var ratio = 0f; ratio <= 1+jumpRatio; ratio += jumpRatio)
         {
-            Vector3 _curve = s_cubicLerp(_fromVector, _handle1, _handle2, _toVector, _ratio);
-            _pointList.Add(_curve);
+            var curve = cubicLerp(fromVector, handle1, handle2, toVector, ratio);
+            pointList.Add(curve);
         }
  
-        return _pointList;
+        return pointList;
     }
 
-    static Vector3 s_quadLerp(Vector3 _fromVector, Vector3 _handle, Vector3 _toVector, float _ratio)
+    static Vector3 quadLerp(Vector3 fromVector, Vector3 handle, Vector3 toVector, float ratio)
     {
-        Vector3 ab = Vector3.Lerp(_fromVector, _handle, _ratio);
-        Vector3 bc = Vector3.Lerp(_handle, _toVector, _ratio);
+        var ab = Vector3.Lerp(fromVector, handle, ratio);
+        var bc = Vector3.Lerp(handle, toVector, ratio);
 
-        return Vector3.Lerp(ab, bc, _ratio);
+        return Vector3.Lerp(ab, bc, ratio);
     }
-    static Vector3 s_cubicLerp(Vector3 _fromVector, Vector3 _handle1, Vector3 _handle2, Vector3 _toVector, float _ratio)
+    static Vector3 cubicLerp(Vector3 fromVector, Vector3 handle1, Vector3 handle2, Vector3 toVector, float ratio)
     {
-        Vector3 abc = s_quadLerp(_fromVector, _handle1, _handle2, _ratio);
-        Vector3 bcd = s_quadLerp(_handle1, _handle2, _toVector, _ratio);
+        var abc = quadLerp(fromVector, handle1, handle2, ratio);
+        var bcd = quadLerp(handle1, handle2, toVector, ratio);
 
-        return Vector3.Lerp(abc, bcd, _ratio);
+        return Vector3.Lerp(abc, bcd, ratio);
     }
      
 }

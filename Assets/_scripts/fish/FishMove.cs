@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class FishMove : MonoBehaviour
 {
-    public float Speed = 0.013f;
-    FishRaycast fishRaycast;
+    FishRaycast _fishRaycast;
+    [SerializeField] float _speed = 0.013f;
 
     private void OnEnable()
     {
-        fishRaycast = GetComponent<FishRaycast>();
-        if (fishRaycast != null)
+        _fishRaycast = GetComponent<FishRaycast>();
+        if (_fishRaycast != null)
         {
             StartCoroutine(ChangeDirection());
         }
@@ -20,7 +20,7 @@ public class FishMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position += transform.right * Speed;
+        transform.position += transform.right * _speed;
 
     }
 
@@ -29,16 +29,16 @@ public class FishMove : MonoBehaviour
         while (true)
         {
 
-            float _dirChange = fishRaycast.RaycastDirectionCheckForRotation();
-            if (_dirChange != 0)
+            var dirChange = _fishRaycast.RaycastDirectionCheckForRotation();
+            if (dirChange != 0)
             {
-                transform.Rotate(new(0, 0, _dirChange));
+                transform.Rotate(new(0, 0, dirChange));
 
             }
 
-            float _normalizedZRot = normalizeAngle(transform.localEulerAngles.z);
+            var normalizedZRot = normalizeAngle(transform.localEulerAngles.z);
 
-            if (Mathf.Abs( _normalizedZRot) < 90)
+            if (Mathf.Abs( normalizedZRot) < 90)
             {
                 if (transform.localScale.y > 0)
                     transform.localScale = new(transform.localScale.x, transform.localScale.y * -1, transform.localScale.z);
@@ -53,13 +53,13 @@ public class FishMove : MonoBehaviour
 
     }
 
-    float normalizeAngle(float _angle)
+    float normalizeAngle(float angle)
     {
-        _angle %= 360f;
-        if (_angle > 180f)
-            _angle -= 360f;
-        else if (_angle < -180f)
-            _angle += 360f;
-        return _angle;
+        angle %= 360f;
+        if (angle > 180f)
+            angle -= 360f;
+        else if (angle < -180f)
+            angle += 360f;
+        return angle;
     }
 }

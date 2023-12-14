@@ -1,29 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GridGenerator : MonoBehaviour // generates a grid based on given parameters
 {
-    [SerializeField] int height, width;
-    public GameObject PlaceHolder;
-    [SerializeField] float cellSize;
+    [SerializeField] int _height;
+    [SerializeField] int _width;
+    [SerializeField] GameObject _placeHolder;
+    [SerializeField] float _cellSize;
     public void CreateGrid()
     {
-        GameObject _tiles = new GameObject();
-        _tiles.name = "tiles";
-        GridData _gridData = _tiles.AddComponent<GridData>();
-        for (int i = 1; i <= width; i++)
+        var tiles = new GameObject();
+        tiles.name = "tiles";
+        GridData gridData = tiles.AddComponent<GridData>();
+        for (var i = 1; i <= _width; i++)
         {
-            for (int j = 1; j <= height; j++)
+            for (var j = 1; j <= _height; j++)
             {
-                GameObject _tile = Instantiate(PlaceHolder, new Vector3(i, j, 0) * cellSize, PlaceHolder.transform.rotation);
-                _tile.transform.SetParent(_tiles.transform);
-                _tile.GetComponent<GridNodeData>().GridPostion = new(i,j);
+                var tile = Instantiate(_placeHolder, new Vector3(i, j, 0) * _cellSize, _placeHolder.transform.rotation);
+                tile.transform.SetParent(tiles.transform);
+                tile.GetComponent<GridNodeData>().GridPosition = new(i, j);
             }
         }
-        _gridData.GridSize = new(width, height);
-        _gridData.CellSize = cellSize;
-        _tiles.transform.position = new Vector3(width + 1, height + 1, 0) * -1 * cellSize / 2;
+        gridData.GridSize = new(_width, _height);
+        gridData.CellSize = _cellSize;
+        tiles.transform.position = new Vector3(_width + 1, _height + 1, 0) * -1 * _cellSize / 2;
     }
 }
 

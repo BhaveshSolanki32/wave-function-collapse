@@ -4,73 +4,75 @@ using UnityEngine;
 
 public class GetCornerRowOfTiles : MonoBehaviour
 {
-    Vector2Int gridSize;
-    GridData gridData;
-    public enum CornerSideEnum { Top, Right, Bottom, Left };
+    Vector2Int _gridSize;
+    GridData _gridData;
+    enum _cornerSideEnum { Top, Right, Bottom, Left };
+
+
     private void Awake()
     {
-        gridData = GetComponent<GridData>();
-        gridSize = gridData.GridSize;
+        _gridData = GetComponent<GridData>();
+        _gridSize = _gridData.GridSize;
     }
 
-    public Tuple<List<GameObject>,int> GetRow(int _sideIntValue)
+    public Tuple<List<GameObject>,int> GetRow(int sideIntValue)
     {
 
-        List<Vector2Int> _nodePosts = new();
-        List<GameObject> _row = new();
+        var nodePosts = new List<Vector2Int>();
+        var row = new List<GameObject>();
 
-        CornerSideEnum _side = (CornerSideEnum)_sideIntValue;
+        _cornerSideEnum side = (_cornerSideEnum)sideIntValue;
 
-        switch (_side)
+        switch (side)
         {
-            case CornerSideEnum.Right:
-                _nodePosts = getNodePosts(gridSize.y,true);
+            case _cornerSideEnum.Right:
+                nodePosts = getNodePosts(_gridSize.y,true);
                 break;
-            case CornerSideEnum.Left:
-                _nodePosts = getNodePosts(1,true);
+            case _cornerSideEnum.Left:
+                nodePosts = getNodePosts(1,true);
                 break;
-            case CornerSideEnum.Top:
-                _nodePosts = getNodePosts(gridSize.x,false);
+            case _cornerSideEnum.Top:
+                nodePosts = getNodePosts(_gridSize.x,false);
                 break;
-            case CornerSideEnum.Bottom:
-                _nodePosts = getNodePosts(1,false);
+            case _cornerSideEnum.Bottom:
+                nodePosts = getNodePosts(1,false);
                 break;
         }
 
-        foreach( Vector2Int x in _nodePosts)
+        foreach( var x in nodePosts)
         {
-            GameObject _tile = gridData.GetTile(x);
-            if (_tile != null)
-                _row.Add(_tile);
+            var tile = _gridData.GetTile(x);
+            if (tile != null)
+                row.Add(tile);
             else
                 Debug.LogError("failed to get tilefor corner row tile");
         }
 
-        return new(_row,_sideIntValue);
+        return new(row,sideIntValue);
     }
 
-    List<Vector2Int> getNodePosts(int _constantValue, bool _isXConstant = false) //if x is constant y will be variable
+    List<Vector2Int> getNodePosts(int constantValue, bool isXConstant = false) //if x is constant y will be variable
     {
-        List<Vector2Int> _nodePosts = new();
-        int _constantComponent;
-        if (!_isXConstant) //x is variable
+        var nodePosts = new List<Vector2Int>();
+        var constantComponent=0;
+        if (!isXConstant) //x is variable
         {
-            _constantComponent =_constantValue;
+            constantComponent =constantValue;
 
-           for(int i = 1; i < gridSize.y; i++)
+           for(var i = 1; i < _gridSize.y; i++)
             {
-                _nodePosts.Add(new(i, _constantComponent));
+                nodePosts.Add(new(i, constantComponent));
             }
 
         }
         else //y is variable
         {
-            _constantComponent = _constantValue;
-            for (int i = 1; i < gridSize.x; i++)
+            constantComponent = constantValue;
+            for (var i = 1; i < _gridSize.x; i++)
             {
-                _nodePosts.Add(new(_constantComponent, i));
+                nodePosts.Add(new(constantComponent, i));
             }
         }
-        return _nodePosts;
+        return nodePosts;
     }
 }

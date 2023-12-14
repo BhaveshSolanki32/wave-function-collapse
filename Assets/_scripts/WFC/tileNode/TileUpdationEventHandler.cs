@@ -6,30 +6,33 @@ using UnityEngine;
 [RequireComponent(typeof(GridNodeData), typeof(SuperStateTile))]
 public class TileUpdationEventHandler : MonoBehaviour
 {
-    public event Action<Vector2Int, HashSet<string>,Vector2Int> OnTileupdate;//contains functions of the nieghbours subscribed to it and local functions that occour when tile is updated // sends tiles left in superpostion to subscribed funcs
-    GridNodeData gridNodeData;
-    public void OnTileUpdateEventTrigger(HashSet<string> _leftTiles, Vector2Int _cameFromPost)
-    {
-            OnTileupdate?.Invoke(gridNodeData.GridPostion, _leftTiles, _cameFromPost);        
-    }
+    GridNodeData _gridNodeData;
+    public event Action<Vector2Int, HashSet<string>, Vector2Int> OnTileupdate;//contains functions of the nieghbours subscribed to it and local functions that occour when tile is updated // sends tiles left in superpostion to subscribed funcs
 
     private void OnEnable()
     {
-        gridNodeData = GetComponent<GridNodeData>();
+        _gridNodeData = GetComponent<GridNodeData>();
         SubscribeToNeighboursEvent();
     }
 
-    private void SubscribeToNeighboursEvent()
+    public void OnTileUpdateEventTrigger(HashSet<string> leftTiles, Vector2Int cameFromPost)
     {
-        var _neighbourList = gridNodeData.NeighbourList;
-
-        foreach (GameObject x in _neighbourList)
-            OnTileupdate += x.GetComponent<SuperStateTile>().NeigbourUpdated;
+        OnTileupdate?.Invoke(_gridNodeData.GridPosition, leftTiles, cameFromPost);
     }
 
     public void TileCollapsed()//unsubscribe to all neighbours events
     {
-        foreach (GameObject x in gridNodeData.NeighbourList)
+        foreach (var x in _gridNodeData.NeighbourList)
             x.GetComponent<TileUpdationEventHandler>().OnTileupdate -= GetComponent<SuperStateTile>().NeigbourUpdated;
     }
+
+    private void SubscribeToNeighboursEvent()
+    {
+        var neighbourList = _gridNodeData.NeighbourList;
+
+        foreach (var x in neighbourList)
+            OnTileupdate += x.GetComponent<SuperStateTile>().NeigbourUpdated;
+    }
+
+    
 }

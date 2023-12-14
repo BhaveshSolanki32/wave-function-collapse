@@ -6,41 +6,43 @@ using UnityEngine.UI;
 
 public class WFCInputUIEvent : MonoBehaviour //handles input from buttons to start and reset tiles acts as link between UI interaction and wfc system
 {
-    bool isWaveFunctionCollapsed = true;
+    [SerializeField] Canvas _uICanvas;
+    [SerializeField] GameObject _tileMap;
+    [SerializeField] TextMeshProUGUI _textMeshProModeChangeButton;
+    bool _isWaveFunctionCollapsed = true;
+    WFCTrigger _wFCTrigger;
+    bool _isCurrentlyNormalMode = true;
     public event Action OnStartBtnPressed; //turn off buttons, starwfc
-    [SerializeField] Canvas uICanvas;
-    [SerializeField] GameObject tileMap;
-    [SerializeField] TextMeshProUGUI textMeshProModeChangeButton;
-    WFCTrigger wFCTrigger;
-
-    bool isCurrentlyNormalMode = true;
 
 
-    public void OnDropDownToggle(GameObject _toggle) //hide menu options
+    public void OnDropDownToggle(GameObject toggle) //hide menu options
     {
-        if (_toggle.transform.parent.localPosition.y != -599)
-            _toggle.transform.parent.localPosition = new(0, -599, 0);
+        var uiUpPost = -466.37f;
+        var uiDownPost = -599;
+
+        if (toggle.transform.parent.localPosition.y != uiDownPost)
+            toggle.transform.parent.localPosition = new(0, uiDownPost, 0);
         else
-            _toggle.transform.parent.localPosition = new(0, -466.37f, 0);
+            toggle.transform.parent.localPosition = new(0, uiUpPost, 0);
 
 
-        Transform _checkMarkTransfrom = _toggle.transform.GetChild(0).GetChild(0);
+        var checkMarkTransfrom = toggle.transform.GetChild(0).GetChild(0);
 
-        if (_checkMarkTransfrom.gameObject.name != "Checkmark") Debug.LogError("toggle child (checkmark) sibiling index changed", _toggle);
+        if (checkMarkTransfrom.gameObject.name != "Checkmark") Debug.LogError("toggle child (checkmark) sibiling index changed", toggle);
 
-        _checkMarkTransfrom.localEulerAngles = new(0, 0, _checkMarkTransfrom.localEulerAngles.z + 180);
+        checkMarkTransfrom.localEulerAngles = new(0, 0, checkMarkTransfrom.localEulerAngles.z + 180);
     }
-    public void OnDelaySliderChange(Slider _sldier)
+    public void OnDelaySliderChange(Slider sldier)
     {
-        wFCTrigger.Delay = _sldier.value;
+        _wFCTrigger.Delay = sldier.value;
     }
 
 
     public void ResetTiles()
     {
-        if (isWaveFunctionCollapsed)
+        if (_isWaveFunctionCollapsed)
         {
-            isWaveFunctionCollapsed = false;
+            _isWaveFunctionCollapsed = false;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
@@ -48,16 +50,16 @@ public class WFCInputUIEvent : MonoBehaviour //handles input from buttons to sta
 
     public void StartWFC()
     {
-        wFCTrigger = tileMap.GetComponent<WFCTrigger>();
-        if (wFCTrigger == null) Debug.LogError("wfc trigger not found in tiles");
+        _wFCTrigger = _tileMap.GetComponent<WFCTrigger>();
+        if (_wFCTrigger == null) Debug.LogError("wfc trigger not found in tiles");
 
-        wFCTrigger.OnWaveFunctionCollapsed += waveFunctionIsCollapsed;
-        OnStartBtnPressed += wFCTrigger.StartWFC;
+        _wFCTrigger.OnWaveFunctionCollapsed += waveFunctionIsCollapsed;
+        OnStartBtnPressed += _wFCTrigger.StartWFC;
 
-        if (isWaveFunctionCollapsed)
+        if (_isWaveFunctionCollapsed)
         {
-            uICanvas.transform.GetChild(0).gameObject.SetActive(false);
-            uICanvas.transform.GetChild(1).gameObject.SetActive(true);
+            _uICanvas.transform.GetChild(0).gameObject.SetActive(false);
+            _uICanvas.transform.GetChild(1).gameObject.SetActive(true);
             OnStartBtnPressed?.Invoke();
         }
 
@@ -65,25 +67,25 @@ public class WFCInputUIEvent : MonoBehaviour //handles input from buttons to sta
 
     public void ModeChange()
     {
-        tileMap.GetComponent<WFCTypeHandler>().ModeChange(isCurrentlyNormalMode);
-        if (isCurrentlyNormalMode)
+        _tileMap.GetComponent<WFCTypeHandler>().ModeChange(_isCurrentlyNormalMode);
+        if (_isCurrentlyNormalMode)
         {
-            textMeshProModeChangeButton.text = "Bézier Mode";
-            isCurrentlyNormalMode = false;
+            _textMeshProModeChangeButton.text = "Bézier Mode";
+            _isCurrentlyNormalMode = false;
         }
         else
         {
-            textMeshProModeChangeButton.text = "Normal Mode";
-            isCurrentlyNormalMode = true;
+            _textMeshProModeChangeButton.text = "Normal Mode";
+            _isCurrentlyNormalMode = true;
         }
-        wFCTrigger = tileMap.GetComponent<WFCTrigger>();
+        _wFCTrigger = _tileMap.GetComponent<WFCTrigger>();
     }
 
     void waveFunctionIsCollapsed() //turn on the buttons, and mark the bool
     {
-        isWaveFunctionCollapsed = true;
-        uICanvas.transform.GetChild(0).gameObject.SetActive(true);
-        uICanvas.transform.GetChild(1).gameObject.SetActive(false);
+        _isWaveFunctionCollapsed = true;
+        _uICanvas.transform.GetChild(0).gameObject.SetActive(true);
+        _uICanvas.transform.GetChild(1).gameObject.SetActive(false);
     }
 
 }

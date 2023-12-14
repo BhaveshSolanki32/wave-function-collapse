@@ -13,14 +13,14 @@ public class WFCBulkCollapseTrigger : WFCTrigger//use a list (from bezier curve)
     {
         RandomTileListPath randomTileListPath = GetComponent<RandomTileListPath>();
 
-        List<GameObject> _path = randomTileListPath.GetBezierTilePath();
-        foreach (GameObject x in _path)
+        var path = randomTileListPath.GetBezierTilePath();
+        foreach (var x in path)
         {
             if (x.GetComponent<SuperStateTile>().CurrentTileEntropy <= 1)
             {
                 continue;
             }
-            directCollapseTile.CollapseTile(_bulkCollapseTileCode,x);
+            _directCollapseTile.CollapseTile(_bulkCollapseTileCode,x);
             yield return new WaitForSeconds(Delay/2);
         }
         StartCoroutine(base.startWFC());

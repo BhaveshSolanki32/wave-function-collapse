@@ -7,66 +7,71 @@ using UnityEngine;
 [RequireComponent(typeof(TileUpdationEventHandler),typeof(GridNodeData))]
 public class SuperStateTile : MonoBehaviour //contains data about the tile in superstate postion mainly the dict of all available tiles
 {
+    
+    [SerializeField] WFCTilesData _wFCTilesData;
+    SocketChecker _socketChecker;
+    GridNodeData _gridNodeData;
+    enum _side { up, right, down, left }; // indicates in value of ValidTilesDictionary (ie. a string array) which index code to check for adjency
+    HashSet<string> _availableTileSet = new();
+
+    public HashSet<string> AvailableTileSet { get { return _availableTileSet; } set { _availableTileSet = value; } }
     public int CurrentTileEntropy
     {
-        get { return AvailableTileSet.Count ; }
+        get { return _availableTileSet.Count; }
+        private set { }
     }
-    [SerializeField] WFCTilesData wFCTilesData;
-     public HashSet<string> AvailableTileSet= new();
-    SocketChecker socketChecker;
-    GridNodeData gridNodeData;
-    enum side { up, right, down, left }; // indicates in value of ValidTilesDictionary (ie. a string array) which index code to check for adjency
+
 
     private void Awake()
     {
-        AvailableTileSet = wFCTilesData.ValidTilesDictionary.Keys.ToHashSet();
-        gridNodeData = GetComponent<GridNodeData>();
-        socketChecker = transform.GetComponentInParent<SocketChecker>();
+        _availableTileSet = _wFCTilesData.ValidTilesDictionary.Keys.ToHashSet();
+        _gridNodeData = GetComponent<GridNodeData>();
+        _socketChecker = transform.GetComponentInParent<SocketChecker>();
     }
    
 
 
-    public void NeigbourUpdated(Vector2Int _neighPost, HashSet<string> _neighbourTileCodes , Vector2Int _cameFromPostBeforeThis)
+    public void NeigbourUpdated(Vector2Int neighPost, HashSet<string> neighbourTileCodes , Vector2Int cameFromPostBeforeThis)
     {
 
         
 
-        if (AvailableTileSet.Count <= 1 && _cameFromPostBeforeThis== gridNodeData.GridPostion)
+        if (_availableTileSet.Count <= 1 && cameFromPostBeforeThis== _gridNodeData.GridPosition)
         {
             return;
         }
 
 
-        HashSet<string> _tilesToRemove = new();       
+        var tilesToRemove = new HashSet<string>();       
 
-        foreach (string y in AvailableTileSet)
+        foreach (var y in _availableTileSet)
         {
-            bool _codeFound = false;
-            foreach(string x in _neighbourTileCodes)
+            var codeFound = false;
+            foreach(var x in neighbourTileCodes)
             {
 
-                if ( socketChecker.IsMatchingSocket(x,y,_neighPost,gridNodeData.GridPostion ) )
+                if ( _socketChecker.IsMatchingSocket(x,y,neighPost,_gridNodeData.GridPosition ) )
                 {
-                    _codeFound = true;
+                    codeFound = true;
                     break;
                 }
             }
-            if (!_codeFound) _tilesToRemove.Add(y);
+            if (!codeFound) tilesToRemove.Add(y);
         }
-        if(_tilesToRemove.Count>0)
-        updateSuperpostion(_tilesToRemove, _neighPost);
+        if(tilesToRemove.Count>0)
+        updateSuperpostion(tilesToRemove, neighPost);
 
-        if (AvailableTileSet.Count <= 0)
-            Debug.LogError("Tile generation failed, " + GetComponent<GridNodeData>().GridPostion + " ran out of tiles");
+        if (_availableTileSet.Count <= 0)
+            Debug.LogError("Tile generation failed, " + GetComponent<GridNodeData>().GridPosition + " ran out of tiles");
 
     }
 
-    private void updateSuperpostion(HashSet<string> _tilesToRemove , Vector2Int _neighPost)
+    private void updateSuperpostion(HashSet<string> tilesToRemove , Vector2Int neighPost)
     {
 
-        foreach (string x in _tilesToRemove)
-            AvailableTileSet.Remove(x);
-        GetComponent<TileUpdationEventHandler>().OnTileUpdateEventTrigger(AvailableTileSet, _neighPost);
+        foreach (var x in tilesToRemove)
+            _availableTileSet.Remove(x);
+        GetComponent<TileUpdationEventHandler>().OnTileUpdateEventTrigger(_availableTileSet, neighPost);
 
     }
 

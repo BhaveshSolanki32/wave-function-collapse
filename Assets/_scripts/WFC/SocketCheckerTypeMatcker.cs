@@ -2,24 +2,24 @@ using UnityEngine;
 
 public class SocketCheckerTypeMatcker : SocketChecker//have extended test for socket check by matcking diff codes colors
 {
-    public override bool IsMatchingSocket(string _neighbourNodeCode, string _currentNodeCode, Vector2Int _neighbourPost, Vector2Int _currentPost)
+    public override bool IsMatchingSocket(string neighbourNodeCode, string currentNodeCode, Vector2Int neighbourPost, Vector2Int currentPost)
     {
-        bool _isMatch = false;
+        var isMatch = false;
 
-        string _neighboursSocketCode = getSocketCode(_neighbourNodeCode, sideFinder(_neighbourPost, _currentPost));
-        string _socketCode = getSocketCode(_currentNodeCode, sideFinder(_neighbourPost, _currentPost, true));
+        var neighboursSocketCode = getSocketCode(neighbourNodeCode, sideFinder(neighbourPost, currentPost));
+        var socketCode = getSocketCode(currentNodeCode, sideFinder(neighbourPost, currentPost, true));
 
-        string _gCode = wFCTilesDataScriptableObject.ValidTilesDictionary["sU"][0];
-        string _waterCode = wFCTilesDataScriptableObject.ValidTilesDictionary["water"][0];
+        var gCode = _wFCTilesDataScriptableObject.ValidTilesDictionary["sU"][0];
+        var waterCode = _wFCTilesDataScriptableObject.ValidTilesDictionary["water"][0];
 
-        if ((_socketCode == _gCode && _neighboursSocketCode == _waterCode) || (_neighboursSocketCode == _gCode && _socketCode == _waterCode))
-            _isMatch = true;
-        else if (_socketCode == _gCode && _neighboursSocketCode == _gCode)
-            _isMatch = false;
-        else if (_neighboursSocketCode == _socketCode)
-            _isMatch = true;
+        if ((socketCode == gCode && neighboursSocketCode == waterCode) || (neighboursSocketCode == gCode && socketCode == waterCode))
+            isMatch = true;
+        else if (socketCode == gCode && neighboursSocketCode == gCode)
+            isMatch = false;
+        else if (neighboursSocketCode == socketCode)
+            isMatch = true;
 
 
-        return _isMatch;
+        return isMatch;
     }
 }

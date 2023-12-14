@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class DirectCollapseTile : MonoBehaviour
 {
-    public void CollapseTile(string _tileCode, GameObject _lowestEntropyNode)
+    public void CollapseTile(string tileCode, GameObject lowestEntropyNode)
     {
-        if (_lowestEntropyNode == null) Debug.LogError("_lowest Entropy node gameobject is null in DirectCollapseTile");
-        TileUpdationEventHandler _tileUpdationEventHandler = _lowestEntropyNode.GetComponent<TileUpdationEventHandler>();
+        if (lowestEntropyNode == null) Debug.LogError("_lowest Entropy node gameobject is null in DirectCollapseTile");
+        var _tileUpdationEventHandler = lowestEntropyNode.GetComponent<TileUpdationEventHandler>();
         _tileUpdationEventHandler.TileCollapsed();
-        _lowestEntropyNode.GetComponent<SuperStateTile>().AvailableTileSet.Clear();
-        _tileUpdationEventHandler.OnTileUpdateEventTrigger(new() { _tileCode }, new Vector2Int(0,0));
+        lowestEntropyNode.GetComponent<SuperStateTile>().AvailableTileSet.Clear();
+        _tileUpdationEventHandler.OnTileUpdateEventTrigger(new() { tileCode }, new Vector2Int(0,0));
     }
 }

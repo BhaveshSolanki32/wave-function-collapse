@@ -2,19 +2,23 @@ using UnityEngine;
 
 public class GridData : MonoBehaviour
 {
-    public Vector2Int GridSize;
-    public float CellSize;
+    Vector2Int _gridSize;
+    float _cellSize;
+    public float CellSize { get { return _cellSize; } set { _cellSize = value; } }
+    public Vector2Int GridSize { get { return _gridSize; } set { _gridSize = value; } }
+
+
     public GameObject GetTile(Vector2Int post)
     {
-        int _index = (post.x - 1) * GridSize.y + post.y - 1;
+        var index = (post.x - 1) * _gridSize.y + post.y - 1;
 
-        if (_index > transform.childCount - 1 || _index < 0 || post.x<=0||post.y<=0 || post.x>GridSize.x || post.y>GridSize.y)
+        if (index > transform.childCount - 1 || index < 0 || post.x<=0||post.y<=0 || post.x>_gridSize.x || post.y>_gridSize.y)
             return null;
         else
         {
-            GameObject _tileNode = transform.GetChild(_index).gameObject;
-            if (_tileNode.GetComponent<GridNodeData>().GridPostion != post) Debug.LogError("wrong tile sent asked for "+post+"returned = "+ _tileNode.GetComponent<GridNodeData>().GridPostion,_tileNode);
-            return _tileNode;
+            var tileNode = transform.GetChild(index).gameObject;
+            if (tileNode.GetComponent<GridNodeData>().GridPosition != post) Debug.LogError($"wrong tile sent asked for {post} returned = {tileNode.GetComponent<GridNodeData>().GridPosition}",tileNode);
+            return tileNode;
         }
             
     }

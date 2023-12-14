@@ -4,122 +4,122 @@ using UnityEngine;
 
 public class RandomTileListPath : MonoBehaviour //returns list of gameobject using beizier curve;
 {
-    GetCornerRowOfTiles getCornerRowOfTiles;
-    [SerializeField] float curvatureStrength = 4;
-    [SerializeField] float smoothness = 0.01f;
-    GridData gridData;
-    public enum CornerSideEnum { Top, Right, Bottom, Left, Random };
+    [SerializeField] float _curvatureStrength = 4;
+    [SerializeField] float _smoothness = 0.01f;
+    GridData _gridData;
+    enum _cornerSideEnum { Top, Right, Bottom, Left, Random };
+    GetCornerRowOfTiles _getCornerRowOfTiles;
 
-
-    public List<GameObject> GetBezierTilePath()
-    {
-        List<GameObject> _bezierPathGameObject = new();
-
-
-        Tuple<GameObject, GameObject> _chosenNode = getRandomGameObjectsFromCorner();
-
-
-        Vector3 _chosenEndNodePostion = _chosenNode.Item1.transform.position;
-        Vector3 _chosenFirstNodePostion = _chosenNode.Item2.transform.position;
-
-        List<Vector3> _bezierPathPosts = BezeirPath.s_GetBezierPath(_chosenFirstNodePostion, randomVector(), randomVector(), _chosenEndNodePostion, smoothness);
-
-        for (int i = 1; i < _bezierPathPosts.Count; i++)
-        {
-             
-            Debug.DrawLine(bringInLimit( _bezierPathPosts[i - 1]), bringInLimit( _bezierPathPosts[i]), Color.red, 100);
-
-            _bezierPathPosts[i] = bringInLimit(_bezierPathPosts[i]);
-
-            Vector2Int _tilePost;
-
-            _tilePost = WorldToGridPostion.Convert(_bezierPathPosts[i],gridData);
-
-            _bezierPathGameObject.Add(gridData.GetTile(_tilePost));
-        }
-
-
-        return _bezierPathGameObject;
-    }
-
-    Vector3 bringInLimit(Vector3 _post)
-    {
-        Vector3 _farthestTilePost = gridData.GetTile(new(gridData.GridSize.x, gridData.GridSize.y)).transform.position;
-        Vector3 _closestTilePost = gridData.GetTile(new(1, 1)).transform.position;
-       
-        _post.x = Mathf.Clamp(_post.x, _closestTilePost.x, _farthestTilePost.x);
-        _post.y= Mathf.Clamp(_post.y, _closestTilePost.y, _farthestTilePost.y);
-        _post.z = 0;
-        return _post;
-    }
 
     private void Awake()
     {
-        getCornerRowOfTiles = GetComponent<GetCornerRowOfTiles>();
-        gridData = GetComponent<GridData>();
+        _getCornerRowOfTiles = GetComponent<GetCornerRowOfTiles>();
+        _gridData = GetComponent<GridData>();
+    }
+
+    public List<GameObject> GetBezierTilePath()
+    {
+        var bezierPathGameObject = new List<GameObject>();
+
+
+        var chosenNode = getRandomGameObjectsFromCorner();
+
+
+        var chosenEndNodePostion = chosenNode.Item1.transform.position;
+        var chosenFirstNodePostion = chosenNode.Item2.transform.position;
+
+        var bezierPathPosts = BezeirPath.GetBezierPath(chosenFirstNodePostion, randomVector(), randomVector(), chosenEndNodePostion, _smoothness);
+
+        for (var i = 1; i < bezierPathPosts.Count; i++)
+        {
+             
+            Debug.DrawLine(bringInLimit( bezierPathPosts[i - 1]), bringInLimit( bezierPathPosts[i]), Color.red, 100);
+
+            bezierPathPosts[i] = bringInLimit(bezierPathPosts[i]);
+
+            Vector2Int tilePost;
+
+            tilePost = WorldToGridPostion.Convert(bezierPathPosts[i],_gridData);
+
+            bezierPathGameObject.Add(_gridData.GetTile(tilePost));
+        }
+
+
+        return bezierPathGameObject;
+    }
+
+    Vector3 bringInLimit(Vector3 post)
+    {
+        var farthestTilePost = _gridData.GetTile(new(_gridData.GridSize.x, _gridData.GridSize.y)).transform.position;
+        var closestTilePost = _gridData.GetTile(new(1, 1)).transform.position;
+       
+        post.x = Mathf.Clamp(post.x, closestTilePost.x, farthestTilePost.x);
+        post.y= Mathf.Clamp(post.y, closestTilePost.y, farthestTilePost.y);
+        post.z = 0;
+        return post;
     }
 
     Vector3 randomVector()
     {
-        Vector3 _rand = new Vector3((UnityEngine.Random.insideUnitCircle.x) * curvatureStrength, (UnityEngine.Random.insideUnitCircle.y) * curvatureStrength, 0);
-        return _rand + transform.position;
+        var rand = new Vector3((UnityEngine.Random.insideUnitCircle.x) * _curvatureStrength, (UnityEngine.Random.insideUnitCircle.y) * _curvatureStrength, 0);
+        return rand + transform.position;
     }
 
-    Tuple<GameObject, GameObject> getRandomGameObjectsFromCorner(CornerSideEnum _side = CornerSideEnum.Random) //item 1 chosen gameobject item 2 it's sides
+    Tuple<GameObject, GameObject> getRandomGameObjectsFromCorner(_cornerSideEnum side = _cornerSideEnum.Random) //item 1 chosen gameobject item 2 it's sides
     {
 
-        CornerSideEnum _otherSide;
-        if (_side == CornerSideEnum.Random)
+        _cornerSideEnum otherSide;
+        if (side == _cornerSideEnum.Random)
         {
-            _side = (CornerSideEnum)UnityEngine.Random.Range(0, 4);
+            side = (_cornerSideEnum)UnityEngine.Random.Range(0, 4);
         }
-        _otherSide = ((int)_side >= 2) ? ((CornerSideEnum)((int)_side - 2)) : (((CornerSideEnum)((int)_side + 2)));
+        otherSide = ((int)side >= 2) ? ((_cornerSideEnum)((int)side - 2)) : (((_cornerSideEnum)((int)side + 2)));
 
-        GameObject _firstTile = getRandomNode(_side);
-        GameObject _lastTile = getRandomNode(_otherSide);
+        var firstTile = getRandomNode(side);
+        var lastTile = getRandomNode(otherSide);
 
-        return new(_firstTile, _lastTile);
+        return new(firstTile, lastTile);
     }
 
 
-    GameObject getRandomNode(CornerSideEnum _side)
+    GameObject getRandomNode(_cornerSideEnum side)
     {
-        Vector2Int _gridSize = gridData.GridSize;
+        var gridSize = _gridData.GridSize;
 
-        GameObject _node=null;
-        switch (_side)
+        GameObject node=null;
+        switch (side)
         {
-            case CornerSideEnum.Right:
-                _node = getNodePosts(_gridSize.x, true);
+            case _cornerSideEnum.Right:
+                node = getNodePosts(gridSize.x, true);
                 break;
-            case CornerSideEnum.Left:
-                _node = getNodePosts(1, true);
+            case _cornerSideEnum.Left:
+                node = getNodePosts(1, true);
                 break;
-            case CornerSideEnum.Top:
-                _node = getNodePosts(_gridSize.y, false);
+            case _cornerSideEnum.Top:
+                node = getNodePosts(gridSize.y, false);
                 break;
-            case CornerSideEnum.Bottom:
-                _node = getNodePosts(1, false);
+            case _cornerSideEnum.Bottom:
+                node = getNodePosts(1, false);
                 break;
              default:
                 Debug.LogError("Wrong side provided in getRandomNode");
                 break;
         }
-        return _node;
+        return node;
     }
 
-    GameObject getNodePosts(int _constantValue, bool _isXConstant = false) //if x is constant y will be variable
+    GameObject getNodePosts(int constantValue, bool isXConstant = false) //if x is constant y will be variable
     {
-        GameObject _node = null;
-        if (_isXConstant)
+        GameObject node = null;
+        if (isXConstant)
         {
-            _node = gridData.GetTile(new(_constantValue, UnityEngine.Random.Range(2, gridData.GridSize.y)));
+            node = _gridData.GetTile(new(constantValue, UnityEngine.Random.Range(2, _gridData.GridSize.y)));
         }
         else
         {
-            _node = gridData.GetTile(new(UnityEngine.Random.Range(2, gridData.GridSize.x),_constantValue));
+            node = _gridData.GetTile(new(UnityEngine.Random.Range(2, _gridData.GridSize.x),constantValue));
         }
-        if (_node == null) Debug.LogError("failed to find node in getRandomNode");
-        return _node;
+        if (node == null) Debug.LogError("failed to find node in getRandomNode");
+        return node;
     }
 }

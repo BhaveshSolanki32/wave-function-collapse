@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class FishInstantiater : MonoBehaviour
 {
-    GameObject tileMap;
+    GameObject _tileMap;
 
 
     private void Awake()
     {
-        tileMap = transform.root.gameObject;
+        _tileMap = transform.root.gameObject;
         FindObjectOfType<WFCInputUIEvent>().OnStartBtnPressed += wFCStartAssign;
+    }
+    private void OnDestroy()
+    {
+        _tileMap.GetComponent<WFCTrigger>().OnWaveFunctionCollapsed -= this.instantiateFish;
     }
 
     private void wFCStartAssign()
     {
-        tileMap.GetComponent<WFCTrigger>().OnWaveFunctionCollapsed += instantiateFish;
+        _tileMap.GetComponent<WFCTrigger>().OnWaveFunctionCollapsed += instantiateFish;
     }
 
     void instantiateFish()
@@ -23,12 +27,7 @@ public class FishInstantiater : MonoBehaviour
         transform.rotation = Quaternion.Euler(0,0, Random.Range(0, 360));
         gameObject.AddComponent<FishRaycast>();
         gameObject.AddComponent<FishMove>();
-       
-
     }
 
-    private void OnDestroy()
-    {
-        tileMap.GetComponent<WFCTrigger>().OnWaveFunctionCollapsed -= this.instantiateFish;
-    }
+    
 }

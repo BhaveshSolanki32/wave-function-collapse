@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class GridNodeData : MonoBehaviour
 {
-    public Vector2Int GridPostion;
-    public List<GameObject> NeighbourList { get; private set; } = new List<GameObject>() { };
+    private Vector2Int _gridPosition;
+    List<GameObject> _neighbourList = new List<GameObject>();
+    public Vector2Int GridPosition { get { return _gridPosition; } set { _gridPosition = value; } }
+    public List<GameObject> NeighbourList { get { return _neighbourList; } private set { } }
 
     private void Awake()
     {
-        NeighbourList.AddRange(GetNeighbours.s_FindNeighbour(gameObject, GetComponentInParent<GridData>()));
+        _neighbourList.AddRange(GetNeighbours.FindNeighbour(gameObject, GetComponentInParent<GridData>()));
     }
 }

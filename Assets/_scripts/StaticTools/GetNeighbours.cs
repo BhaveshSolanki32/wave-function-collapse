@@ -3,40 +3,35 @@ using UnityEngine;
 
 public static class GetNeighbours
 {
-    static List<GameObject> NeighbourList = new() { };
-    
+    static List<GameObject> s_neighbourList = new() { };
 
-
-    public static List<GameObject> s_FindNeighbour(GameObject _baseTile, GridData _gridData)
+    public static List<GameObject> FindNeighbour(GameObject baseTile, GridData gridData)
     {
 
-        NeighbourList.Clear();
+        s_neighbourList.Clear();
 
-        GridNodeData _gridNode = _baseTile.GetComponent<GridNodeData>();
-        Vector2Int _currentPost = _gridNode.GridPostion;
+        var gridNode = baseTile.GetComponent<GridNodeData>();
+        var currentPost = gridNode.GridPosition;
 
-
-
-
-        for (int i = -1; i <= 1; i++)
+        for (var i = -1; i <= 1; i++)
         {
             if (i == 0) continue;
 
-            s_updateNeighbourList(new((_currentPost.x + i), _currentPost.y), _gridData);
+            updateNeighbourList(new((currentPost.x + i), currentPost.y), gridData);
 
 
-            s_updateNeighbourList(new(_currentPost.x, (_currentPost.y + i)),_gridData);
+            updateNeighbourList(new(currentPost.x, (currentPost.y + i)), gridData);
         }
-        return NeighbourList;
+        return s_neighbourList;
 
     }
 
-    static void s_updateNeighbourList(Vector2Int _neighPostion, GridData _gridData)
+    static void updateNeighbourList(Vector2Int neighPostion, GridData gridData)
     {
 
-        GameObject _tile = _gridData.GetTile(_neighPostion);
-        if (_tile != null && _tile.GetComponent<GridNodeData>().GridPostion == _neighPostion)
-            NeighbourList.Add(_tile);
+        var tile = gridData.GetTile(neighPostion);
+        if (tile != null && tile.GetComponent<GridNodeData>().GridPosition == neighPostion)
+            s_neighbourList.Add(tile);
 
     }
 }
